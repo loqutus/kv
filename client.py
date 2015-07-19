@@ -10,34 +10,39 @@ BUFFER = 1024
 
 
 def get_key(key):
-    print 'get_key ' + key
     sock = socket.socket(socket.AF_INET6, socket.SOCK_STREAM)
     sock.connect((HOST, PORT))
     sock.send('get ' + key)
-    print sock.recv(BUFFER)
-    return key
+    value = sock.recv(BUFFER)
+    sock.close()
+    return value
 
 
 def set_key(key, value):
-    print 'set_key ' + key + ' ' + value
     sock = socket.socket(socket.AF_INET6, socket.SOCK_STREAM)
     sock.connect((HOST, PORT))
     sock.send('set ' + key + ' ' + value)
-    print sock.recv(BUFFER)
-    return 0
+    sock.close()
+    return value
+
 
 def stop():
     sock = socket.socket(socket.AF_INET6, socket.SOCK_STREAM)
     sock.connect((HOST, PORT))
     sock.send('stop')
+    sock.close()
 
 
 if __name__ == '__main__':
-    if sys.argv[1] == 'get':
-        get_key(sys.argv[2])
-    elif sys.argv[1] == 'set':
-        set_key(sys.argv[2], sys.argv[3])
-    elif sys.argv[1] == 'stop':
+    action = sys.argv[1]
+    if action == 'get':
+        key = sys.argv[2]
+        print key + '=' + get_key(sys.argv[2])
+    elif action == 'set':
+        key = sys.argv[2]
+        value = sys.argv[3]
+        print key + '=' + set_key(key, value)
+    elif action == 'stop':
         stop()
     else:
         print 'error action, exiting'
