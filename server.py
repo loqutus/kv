@@ -41,4 +41,5 @@ if __name__ == '__main__':
             conn.send(answer)
         elif action == 'stop':
             conn.send('stopping')
+            print 'exiting'
             exit (0)

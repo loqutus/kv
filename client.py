@@ -15,7 +15,7 @@ def get_key(key):
     sock.connect((HOST, PORT))
     sock.send('get ' + key)
     print sock.recv(BUFFER)
-    return 0
+    return key
 
 
 def set_key(key, value):
